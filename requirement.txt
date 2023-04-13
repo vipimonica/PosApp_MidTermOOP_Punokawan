@@ -1,0 +1,78 @@
+Deskripsi
+
+Pada UTS ini, anda akan melanjutkan proyek aplikasi Point of Service yang telah dijelaskan dosen
+pengampu melalui video tutorial. Tugas anda adalah untuk melanjutkan fitur-fitur berikut ini.
+
+1. Kelas Transaksi (40 Poin)
+   Kelas ini bertujuan untuk menyimpan semua transaksi yang telah dilakukan kasir. Kelas ini menyimpan
+   informasi barang dan jumlah setiap barang yang dimasukkan pada daftar belanja, total belanja, jumlah
+   yang dibayar, kembalian, dan waktu transaksi. Ketika pengguna menekan tombol bayar, maka
+   program anda membuat satu objek dari kelas Transaksi, menyimpan informasi di atas, dan
+   meletakkan transaksi tersebut pada sebuah ArrayList<Transaksi> .
+2. Database untuk kelas Transaksi (30 Poin)
+   Anda dapat meningkatkan fitur dari soal pertama dengan menyimpan objek transaksi ke dalam
+   sebuah tabel pada database. Buat tabel transaksi untuk menyimpan setiap data transaksi yang telah
+   dimasukkan pengguna. Perlu diingat bahwa objek transaksi memiliki daftar kumpulan barang. Relasi
+   antara transaksi dan barang adalah many-to-many. Anda perlu membuat tabel agregat untuk
+   melakukan pemetaan ini.
+3. Error Handling dan JOptionPane (25 Poin)
+   Tambahkan fitur error handling pada program anda. Adapun fitur error handling yang dapat anda
+   tambahkan adalah sebagai berikut
+   1. Pengguna salah memasukkan input angka pada kode, kuantitas, atau jumlah yang dibayar.
+   2. Pengguna memasukkan jumlah pembayaran yang lebih sedikit dari total belanja
+   3. Kode barang yang dimasukkan pengguna tidak ada.
+   Jika pengguna melakukan error di atas, tampilkan informasi tentang kesalahan pengguna dengan
+   menggunakan JOptionPane.
+4. Fitur Login (25 Poin)
+   Tambahkan fitur login pada aplikasi anda. Saat aplikasi pertama kali dijalankan, sistem akan
+   menampilkan frame untuk login sebelum masuk ke aplikasi POS. Jika username dan password yang
+   dimasukkan benar, program akan menampilkan aplikasi POS. Nilai tambahan jika anda dapat
+   menerapkan fitur enkripsi pada proses login.
+Total nilai di atas adalah 120. Tambahan 10 poin diberikan jika anda dapat membuat video yang menarik
+sebagai luaran anda. Nilai maksimum yang dapat diraih adalah 100. Silahkan memilih fitur yang anda
+dapat kerjakan.
+
+Luaran
+
+Luaran utama dari UTS ini adalah folder proyek yang mencakup semua kode yang telah anda bangun.
+Jangan lupa untuk melakukan dump pada database anda dan meletakan hasil dump (biasanya dalam
+format .sql) tersebut pada folder proyek anda. Unggah proyek ini ke github anda masing-masing dan
+lampirkan link pada komen video tutorial yang anda buat.
+
+Luaran kedua adalah satu video tutorial dengan durasi maksimal 10 menit dan diunggah ke youtube. Video
+mencakup uji coba setiap fitur yang anda kerjakan dan penjelasan singkat dari kode yang anda bangun
+untuk fitur tersebut. Seluruh anggota kelompok harus berpartisipasi pada video tersebut dan wajah orang
+yang berbicara harus terlihat pada video. Link diunggah melalui e-Learning dengan menggunakan link yang
+telah disediakan oleh Dosen. Adapun syarat/kriteria dari video yang dibuat adalah sebagai berikut.
+
+   1. Video dibuat dengan resolusi minimal 720p (1280x720). Anda disarankan untuk menggunakan
+      video dengan resolusi yang lebih tinggi (1080p).
+   2. Pastikan teks/kode yang terdapat pada video dapat terbaca dengan baik.
+   3. Suara yang menjelaskan konten dari video harus terdengar jelas. Anda dapat menggunakan music
+      latar untuk membuat video semakin menarik.
+
+Sebagai tambahan, video yang dibuat harus meletakkan deskripsi sebagai berikut:
+
+#UniversitasSumateraUtara #Fasilkom-TI #Java
+
+Video ini adalah proyek Ujian Tengah Semester dari kelompok NAMA_KELOMPOK untuk mata kuliah
+Pemrograman Berorientasi Objek pada program studi Ilmu Komputer, Fakultas Ilmu Komputer dan
+Teknologi Informasi, Universitas Sumatera Utara. Adapun anggota dari kelompok NAMA_KELOMPOK
+adalah:
+
+1. NAMA_ANGGOTA_1 (NIM_ANGGOTA_1)
+2. NAMA_ANGGOTA_2 (NIM_ANGGOTA_2)
+3. NAMA_ANGGOTA_3 (NIM_ANGGOTA_3)
+
+Pada video ini, kami akan menjelaskan tentang DESKRIPSI_SINGKAT_VIDEO_MAX_3_KALIMAT.
+
+Proyek UTS ini dapat diunduh menggunakan link berikut LINK_GITHUB
+====
+Fakultas Ilmu Komputer dan Teknologi Informasi
+fasilkom-ti.usu.ac.id/en
+instagram.com/fasilkomti_usu
+
+Universitas Sumatera Utara
+usu.ac.id
+instagram.com/official.usu
+
