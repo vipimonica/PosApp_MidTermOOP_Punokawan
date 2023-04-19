@@ -5,6 +5,7 @@
 package posproject;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -32,36 +33,47 @@ public class PosFrame extends javax.swing.JFrame {
         
         System.out.println(daftarBarang.size());
         initComponents();
-        
+        // Error handling jumlah masih gabisa
         daftarModel = daftarTable.getModel();
-        daftarModel.addTableModelListener(new TableModelListener()
-            {
-                @Override
-                public void tableChanged(TableModelEvent tme) {
-                    if(tme.getColumn() == 4){
-                        int baris = tme.getFirstRow();
-                        
-                        float harga = (float)daftarModel.getValueAt(baris,3);
-                        int jumlah = (int)daftarModel.getValueAt(baris,4);
-                        
-                        float total = harga * jumlah;
-                        daftarModel.setValueAt(total, baris, 5);
-                        
-                        float totalBelanja = 0.0f;
-                        total = 0.0f;
-                        
-                        // Warning : Jumlah Belanja belum update ketika listener dipanggil
-                        for (int i=0; i < jumlahBelanja; i++){
-                           total = (float)daftarModel.getValueAt(i,5);
-                           totalBelanja = totalBelanja + total;
-                        }      
-                        int totalBelanjaInt = (int)totalBelanja;
-                        totalBelanjaTextField.setText(String.format("%,d",totalBelanjaInt));
-                      
+        daftarModel.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent tme) {
+                System.out.println("tableChanged() called with event: " + tme);
+
+                if (tme.getColumn() == 4) {
+                    int baris = tme.getFirstRow();
+
+                    float harga = (float) daftarModel.getValueAt(baris, 3);
+                    int jumlah = 0;
+
+                    try {
+                        jumlah = Integer.parseInt(daftarModel.getValueAt(baris, 4).toString());
+                    } catch (NumberFormatException e) {
+                        // Display an error message
+                        System.out.println("NumberFormatException: " + e.getMessage());
+                        JOptionPane.showMessageDialog(null, "Jumlah harus berupa angka");
+
+                        // Set the value to 1
+                        daftarModel.setValueAt(1, baris, tme.getColumn());
+                        return; // Exit the listener to prevent further calculations
                     }
-           }   
-           }
-                );
+
+                    float total = harga * jumlah;
+                    daftarModel.setValueAt(total, baris, 5);
+
+                    float totalBelanja = 0.0f;
+                    total = 0.0f;
+
+                    // Warning: Jumlah Belanja belum update ketika listener dipanggil
+                    for (int i = 0; i < jumlahBelanja; i++) {
+                        total = (float) daftarModel.getValueAt(i, 5);
+                        totalBelanja = totalBelanja + total;
+                    }
+                    int totalBelanjaInt = (int) totalBelanja;
+                    totalBelanjaTextField.setText(String.format("%,d", totalBelanjaInt));
+                }
+            }
+        });
     }
 
     /**
@@ -375,31 +387,30 @@ public class PosFrame extends javax.swing.JFrame {
 
     private void kodeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kodeTextFieldActionPerformed
         String kodeInput = kodeTextField.getText();
-        
-        Barang tempBarang;
-        for (int i=0; i< daftarBarang.size(); i++){
-            tempBarang = daftarBarang.get(i);
-            
-            //Warning: tempIndex digunakan untuk indexing baris dimulai dari index 0
-            int tempIndex = 0;
-            
-            if (tempBarang.kode.equals(kodeInput)){
+        // Error handling kode apakaah ada di list atau tidak
+        Barang tempBarang = null;
+        int tempIndex = 0;
+        for (Barang barang : daftarBarang) {
+            if (barang.kode.equals(kodeInput)) {
                 tempIndex = jumlahBelanja;
                 jumlahBelanja++;
-                
                 System.out.println("Barang ditemukan!");
-                i = daftarBarang.size();
-                namaTextField.setText(tempBarang.nama);
-                hargaTextField.setText(Float.toString(tempBarang.harga));
-                
-                daftarModel.setValueAt(jumlahBelanja,tempIndex,0);
+                namaTextField.setText(barang.nama);
+                hargaTextField.setText(Float.toString(barang.harga));
+                daftarModel.setValueAt(jumlahBelanja, tempIndex, 0);
                 daftarModel.setValueAt(kodeInput, tempIndex, 1);
-                daftarModel.setValueAt(tempBarang.nama, tempIndex, 2);
-                daftarModel.setValueAt(tempBarang.harga, tempIndex, 3);
+                daftarModel.setValueAt(barang.nama, tempIndex, 2);
+                daftarModel.setValueAt(barang.harga, tempIndex, 3);
                 daftarModel.setValueAt(1, tempIndex, 4);
-
+                tempBarang = barang;
+                break;
             }
         }
+        if (tempBarang == null) {
+            System.out.println("Barang tidak ditemukan!");
+            JOptionPane.showMessageDialog(null, "Item with code " + kodeInput + " not found.");
+        }
+        kodeTextField.setText(""); 
     }//GEN-LAST:event_kodeTextFieldActionPerformed
 
     private void kembalianTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kembalianTextFieldActionPerformed
@@ -423,8 +434,15 @@ public class PosFrame extends javax.swing.JFrame {
         String dibayarString = dibayarTextField.getText();
         dibayarString = dibayarString.replace(",", ""); // remove commas from the string
         float dibayar = Float.parseFloat(dibayarString);
-
-        int kembalian = (int) (dibayar - totalBelanja);
+        
+            if (dibayar < totalBelanja) {
+                JOptionPane.showMessageDialog(null, "The amount paid is insufficient to cover the total purchase cost.");
+                dibayarTextField.setText("");
+                kembalianTextField.setText("");
+                return;
+            }
+            
+        int kembalian = (int) (dibayar - totalBelanja);    
         kembalianTextField.setText(String.format("%,d", kembalian));
     }//GEN-LAST:event_dibayarTextFieldActionPerformed
 
@@ -448,7 +466,7 @@ public class PosFrame extends javax.swing.JFrame {
             float dibayarInput = Float.parseFloat(dibayarString);
             dibayarTextField.setText(String.format("%,.0f", dibayarInput));
         } catch (NumberFormatException ex) {
-            // handle invalid input
+            JOptionPane.showMessageDialog(null, "Invalid input. Please enter a number.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_dibayarTextFieldKeyReleased
 
