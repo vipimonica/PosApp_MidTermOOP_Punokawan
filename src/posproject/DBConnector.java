@@ -19,7 +19,7 @@ public class DBConnector {
     private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String DB_URL = "jdbc:mysql://localhost/pos_db";
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "root";
 
     public static void initDBConnection() {
         try {
@@ -53,4 +53,5 @@ public class DBConnector {
             }
         }
     }
+
 }
