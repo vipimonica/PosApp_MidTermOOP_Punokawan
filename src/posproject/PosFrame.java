@@ -5,6 +5,7 @@
 package posproject;
 
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -21,6 +22,11 @@ public class PosFrame extends javax.swing.JFrame {
     Transaksi transaksi = new Transaksi();
     DetailTransaksi detailTransaksi = new DetailTransaksi();
     
+    Random rand = new Random();
+    
+    //int transactionID = rand.nextInt(900000) + 100000;
+    
+    int transaction_ID;
     
     TableModel daftarModel;
     
@@ -50,12 +56,15 @@ public class PosFrame extends javax.swing.JFrame {
 
                 if (tme.getColumn() == 4) {
                     int baris = tme.getFirstRow();
+                    
+                    System.out.println("baris dimulai pada -------> ");
 
                     float harga = (float) daftarModel.getValueAt(baris, 3);
                     int jumlah = 0;
 
                     try {
                         jumlah = Integer.parseInt(daftarModel.getValueAt(baris, 4).toString());
+                        detailTransaksi.daftarJumlahBarang.set(baris,jumlah);
                         
                     } catch (NumberFormatException e) {
                         // Display an error message
@@ -72,6 +81,8 @@ public class PosFrame extends javax.swing.JFrame {
 
                     float totalBelanja = 0.0f;
                     total = 0.0f;
+                    
+                    detailTransaksi.daftarHargaBarang.set(baris,totalBelanja);
 
                     // Warning: Jumlah Belanja belum update ketika listener dipanggil
                     for (int i = 0; i < jumlahBelanja; i++) {
@@ -406,6 +417,14 @@ public class PosFrame extends javax.swing.JFrame {
                 tempIndex = jumlahBelanja;
                 jumlahBelanja++;
                 System.out.println("Barang ditemukan!");
+                
+                // adding item to database
+                
+                detailTransaksi.daftarIdBarang.add(Integer.valueOf(barang.kode));
+                detailTransaksi.daftarJumlahBarang.add(jumlahBelanja);
+                detailTransaksi.daftarHargaBarang.add(barang.harga);
+                
+                
                 namaTextField.setText(barang.nama);
                 hargaTextField.setText(Float.toString(barang.harga));
                 daftarModel.setValueAt(jumlahBelanja, tempIndex, 0);
@@ -448,6 +467,10 @@ public class PosFrame extends javax.swing.JFrame {
         float totalBelanja = Float.parseFloat(totalBelanjaString);
         
         // set to database
+        int transactionID = rand.nextInt(900000) + 100000;
+        transaction_ID = transactionID;
+        detailTransaksi.transactionID = transaction_ID;
+
         transaksi.totalBelanja = totalBelanja;
 
         String dibayarString = dibayarTextField.getText();
@@ -463,7 +486,9 @@ public class PosFrame extends javax.swing.JFrame {
             }
             else{
                 // set to database
+                transaksi.transactionID = transaction_ID;
                 transaksi.totalBayar = dibayar;
+                
             }
             
         int kembalian = (int) (dibayar - totalBelanja);
@@ -474,6 +499,8 @@ public class PosFrame extends javax.swing.JFrame {
         
         // adding to database   
         transaksi.insertDataTransaksi();
+        detailTransaksi.insertDetailTransaksi();
+
     }//GEN-LAST:event_dibayarTextFieldActionPerformed
 
     private void dibayarTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dibayarTextFieldKeyTyped
