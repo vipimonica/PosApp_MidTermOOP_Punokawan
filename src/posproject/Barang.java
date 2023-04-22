@@ -16,6 +16,7 @@ import java.util.logging.Logger;
  * @author Asus
  */
 public class Barang {
+    
     public String kode;
     public String nama;
     public float harga;
@@ -35,8 +36,8 @@ public class Barang {
             
             while (rs.next()){
                 barang = new Barang();
-                barang.kode = Integer.toString(rs.getInt("kode"));
-                barang.nama = rs.getString("nama");
+                barang.kode = Integer.toString(rs.getInt("id"));
+                barang.nama = rs.getString("nama_produk");
                 barang.harga = rs.getFloat("harga");
                 
                 daftarBarang.add(barang);
