@@ -57,12 +57,15 @@ public class PosFrame extends javax.swing.JFrame {
                 if (tme.getColumn() == 4) {
                     int baris = tme.getFirstRow();
                     
-                    System.out.println("baris dimulai pada -------> ");
+                    String message = "baris dimulai pada -------> "+baris;
+                    
+                    System.out.println(message);
 
                     float harga = (float) daftarModel.getValueAt(baris, 3);
                     int jumlah = 0;
 
                     try {
+                        // update item count
                         jumlah = Integer.parseInt(daftarModel.getValueAt(baris, 4).toString());
                         detailTransaksi.daftarJumlahBarang.set(baris,jumlah);
                         
@@ -78,16 +81,19 @@ public class PosFrame extends javax.swing.JFrame {
 
                     float total = harga * jumlah;
                     daftarModel.setValueAt(total, baris, 5);
+                    // update price
+                    detailTransaksi.daftarHargaBarang.set(baris,total);
 
                     float totalBelanja = 0.0f;
                     total = 0.0f;
                     
-                    detailTransaksi.daftarHargaBarang.set(baris,totalBelanja);
+                    
 
                     // Warning: Jumlah Belanja belum update ketika listener dipanggil
                     for (int i = 0; i < jumlahBelanja; i++) {
                         total = (float) daftarModel.getValueAt(i, 5);
                         totalBelanja = totalBelanja + total;
+                        
                     }
                     int totalBelanjaInt = (int) totalBelanja;
                     totalBelanjaTextField.setText(String.format("%,d", totalBelanjaInt));
